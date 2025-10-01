@@ -29,8 +29,8 @@ def sto_train(model, optimizer, dataloader, epochs=50, device='cpu'):
     model.train()
     for epoch in range(epochs):
         total_loss, total_loss1, total_loss2 = 0, 0, 0
-        for batch_idx, (data, target) in enumerate(dataloader):
-            data, target = data.to(device), target.to(device)
+        for batch_idx, x_and_y in enumerate(dataloader):
+            data, target = x_and_y[:, :-1].to(device), x_and_y[:, -1].to(device)
             optimizer.zero_grad()
             data = vectorize(data)
             target = vectorize(target)
