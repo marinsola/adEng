@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+
+!pip install engression
 from engression.models import StoNet
 
 class additive_engression(nn.Module):
