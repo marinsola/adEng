@@ -65,3 +65,33 @@ def erm_train(model, optimizer, dataloader, epochs=50, device='cpu'):
                 epoch , epochs,
                 100. * epoch / epochs, total_loss))
     print('done!')
+
+def check_test(model, test_loader, device, returns=False):
+    model.eval()
+    tss, rss = 0, 0
+    for i, data in enumerate(test_loader):
+        x_test, y_test = data[:, :-1], data[:, -1]
+        x_test = x_test.to(device)
+        try:
+            yhat = model.predict(x_test).cpu().detach()
+        except:
+            yhat = model(x_test).cpu().detach()
+        err = F.mse_loss(y_test.cpu(), yhat.cpu()).item()
+        tss += F.mse_loss(y_test.cpu(), y_test.mean().cpu() * torch.ones_like(y_test).cpu()).item()
+        rss += err
+    if returns:
+        return 1 - rss/tss, rss/len(test_loader)
+    else:
+        print(f'R^2 : {1 - rss/tss}')
+        print(f'MSE : {rss/len(test_loader)}')
+
+def estimate_metrics(model, test_loader, device, returns=True, n_iter=100, R2=True, MSE=True, fullreturn=False):
+    r2_est, mse_est = [], []
+    for i in range(n_iter):
+        r2, mse = check_test(model, test_loader, device, returns=returns)
+        r2_est.append(r2)
+        mse_est.append(mse)
+    if fullreturn:
+        return r2_est, mse_est
+    else:
+        return np.mean(r2_est), np.mean(mse_est)
