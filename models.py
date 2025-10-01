@@ -22,7 +22,7 @@ class additive_engression(nn.Module):
         self.engressor_dropout = engressor_dropout
 
         for k in range(K):
-            setattr(self, f"engressor_{k}", StoNet(input_dim, output_dim, engressor_layers, engressor_hidden_dim))
+            setattr(self, f"engressor_{k}", StoNet(input_dim, output_dim, engressor_layers, engressor_hidden_dim, resblock=True))
 
         for p in  range(input_dim):
             layers = [nn.Linear(1, marginal_hidden_dim), nn.LeakyReLU(0.01)]
