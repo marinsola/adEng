@@ -6,7 +6,7 @@ from engression.models import StoNet
 class additive_engression(nn.Module):
     def __init__(self, K, input_dim, hidden_dim=100, output_dim=1, eng_layer=2,
                  marginal_hidden_dim=100, marginal_layers=2, marginal_dropout=0.0,
-                 engressor_hidden_dim=100, engressor_layers=2, engressor_dropout=0.0):
+                 engressor_hidden_dim=100, engressor_dropout=0.0):
         super(additive_engression, self).__init__()
 
         self.input_dim = input_dim
