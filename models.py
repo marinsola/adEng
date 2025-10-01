@@ -1,3 +1,7 @@
+import torch
+import torch.nn as nn
+from engression.models import StoNet
+
 class additive_engression(nn.Module):
     def __init__(self, K, input_dim, hidden_dim=100, output_dim=1, eng_layer=2,
                  marginal_hidden_dim=100, marginal_layers=2, marginal_dropout=0.0,
